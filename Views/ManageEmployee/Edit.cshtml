@@ -1,0 +1,62 @@
+﻿@model HalcyonAttendance.Models.EmployeeDetails
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit Employee Details</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="EmpName" class="control-label"></label>
+                <input asp-for="EmpName" class="form-control" />
+                <span asp-validation-for="EmpName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmpEmail" class="control-label"></label>
+                <input asp-for="EmpEmail" class="form-control" />
+                <span asp-validation-for="EmpEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmpPassword" class="control-label"></label>
+                <input asp-for="EmpPassword" class="form-control" />
+                <span asp-validation-for="EmpPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmpPhone" class="control-label"></label>
+                <input asp-for="EmpPhone" class="form-control" />
+                <span asp-validation-for="EmpPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="EmpImage" class="form-control" type="hidden" />
+            </div>
+            <div class="form-group">
+                <label asp-for="EmpPosition" class="control-label"></label>
+                <input asp-for="EmpPosition" class="form-control" />
+                <span asp-validation-for="EmpPosition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmpSalary" class="control-label"></label>
+                <input asp-for="EmpSalary" class="form-control" />
+                <span asp-validation-for="EmpSalary" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <a asp-action="ShowAllEmp" class="btn btn-info">&nbsp;Back to List</a>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,80 @@
+﻿@model IEnumerable<HalcyonAttendance.Models.VisitorDetails>
+
+@{
+    ViewData["Title"] = "LoadVisitor";
+}
+
+<h1>LoadVisitor</h1>
+
+<p>
+    <div class="col-12 text-right"><a asp-action="Create" class="btn btn-primary">Enlist Visitor</a></div>
+</p>
+<center>
+    <div>
+        <form method="post">
+            <span>Time From : </span><input type="date" name="FromDate" />
+            <span>Time To : </span><input type="date" name="ToDate" />
+            <input type="submit" value="Get the Visitors within the Time" class="btn btn-success" />
+            <a asp-action="LoadVisitor"></a>
+        </form>
+    </div>
+</center>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.dateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Profession)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr> 
+            <td>
+                @Html.DisplayFor(modelItem => item.dateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Profession)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })|
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<centre>
+    <a asp-action="LoadVisitor" class="btn btn-info">&nbsp; All Visitors</a>
+    <a asp-controller="ManageEmployee" asp-action="ShowAllEmp" class="btn btn-info">&nbsp;Admin Panel</a>
+</centre>
+

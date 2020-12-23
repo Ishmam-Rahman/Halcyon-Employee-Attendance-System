@@ -1,0 +1,80 @@
+﻿@model IEnumerable<HalcyonAttendance.Models.EmployeeDetails>
+
+@{
+    ViewData["Title"] = "ShowAllEmp";
+}
+
+<h1>Halcyon Employee List</h1>
+<div>
+    <div class="col-12 text-right">
+        <a asp-action="Create" class="btn btn-info">&nbsp; Add New Employee</a>
+    </div>
+    <div>
+        <form method="post">
+            <div class="row">
+                <div class="col-3">
+                    <input type="text" class="form-control" name="email" />
+                </div>
+                <div class="col-2">
+                    <input type="submit" value="Search" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.EmpImage)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EmpName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EmpEmail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.EmpPosition)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    <img src="~/images/@item.EmpImage"
+                         class="rounded-circle"
+                         height="40" width="40"
+                         asp-append-version="true" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpPosition)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<center>
+    <div>
+        <a asp-controller="Visitor" asp-action="LoadVisitor" class="btn btn-info">&nbsp; Visitor List</a>
+        <a asp-action="ShowAllEmp" class="btn btn-info">&nbsp; All Employee</a>
+    </div>
+</center>
+<div class="col-12 text-right">
+    
+</div>
