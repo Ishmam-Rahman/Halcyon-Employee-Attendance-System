@@ -62,7 +62,7 @@ namespace HalcyonAttendance
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Employee}/{action=Login}/{id?}");
                 endpoints.MapRazorPages();
             });
             /* app.UseMvc(routes =>

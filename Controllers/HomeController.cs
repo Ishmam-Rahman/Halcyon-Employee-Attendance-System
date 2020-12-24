@@ -20,7 +20,7 @@ namespace HalcyonAttendance.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Login", "Employee");
         }
 
         public IActionResult Privacy()

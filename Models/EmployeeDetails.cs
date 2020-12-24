@@ -31,5 +31,8 @@ namespace HalcyonAttendance.Models
         [Required]
         [Display(Name = "Salary")]
         public int EmpSalary { get; set; }
+
+        [Required]
+        public bool LoginStatus { get; set; }
     }
 }

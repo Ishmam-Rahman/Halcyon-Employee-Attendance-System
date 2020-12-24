@@ -54,12 +54,14 @@ namespace Practicum_Project_HAS.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Checking Duplicate Email
                 var findemployee = _db.EmployeeDetails.FirstOrDefault(c => c.EmpEmail == employeeDetails.EmpEmail);
                 if (findemployee != null)
                 {
                     ViewBag.message = "Employee with this email already exist!!!";
                     return View(employeeDetails);
                 }
+
                 string FileName = UploadedFile(employeeDetails);
                 var Employee = new EmployeeDetails
                 {
@@ -70,6 +72,7 @@ namespace Practicum_Project_HAS.Controllers
                     EmpPosition = employeeDetails.EmpPosition,
                     EmpSalary = employeeDetails.EmpSalary,
                     EmpImage = FileName,
+                    LoginStatus = false,
                 };
                 _db.EmployeeDetails.Add(Employee);
                 await _db.SaveChangesAsync();

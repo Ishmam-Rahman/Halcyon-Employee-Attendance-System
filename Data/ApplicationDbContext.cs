@@ -16,6 +16,7 @@ namespace HalcyonAttendance.Data
 
         public DbSet<EmployeeDetails> EmployeeDetails { get; set; }
         public DbSet<VisitorDetails> VisitorDetails { get; set; }
+        public DbSet<AttendanceModel> AttendanceModels { get; set; }
 
     }
 }
