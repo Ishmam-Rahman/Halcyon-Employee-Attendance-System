@@ -7,8 +7,31 @@
 <h1>LoadAttendanceHistory</h1>
 
 <p>
-    <a asp-action="Login">Return to Login Form</a>
+    <div class="col-12 text-right"><a asp-action="Login" class="btn btn-primary">Return to Attendacne Pannel</a></div>
 </p>
+
+<div>
+    <form asp-action="ReportGenerate" method="post">
+        <span>From : </span><input type="date" name="FromDate" />
+        <span>Upto : </span><input type="date" name="ToDate" />
+        <input type="submit" value="Generate Report" class="btn btn-success" />
+    </form>
+</div>
+<br />
+<div>
+
+</div>
+
+<div>
+    <form method="post">
+        <span>Time From : </span><input type="date" name="FromDate" />
+        <span>Time To : </span><input type="date" name="ToDate" />
+        <input type="submit" value="Attendance History" class="btn btn-success" />
+        <a asp-action="LoadAttendanceHistory"></a>
+    </form>
+</div>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -28,26 +51,32 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ArrivalTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LeavingTime)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivalTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LeavingTime)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<center>
+    <a asp-action="LoadAttendanceHistory" class="btn btn-info">&nbsp; All Empolyee History</a>
+    <a asp-controller="ManageEmployee" asp-action="ShowAllEmp" class="btn btn-info">&nbsp;Admin Panel</a>
+</center>

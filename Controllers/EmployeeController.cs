@@ -27,6 +27,13 @@ namespace HalcyonAttendance.Controllers
             return View(_db.AttendanceModels.ToList());
         }
 
+        [HttpPost]
+        public IActionResult LoadAttendanceHistory(DateTime FromDate, DateTime ToDate)
+        {
+            Console.WriteLine("came here here!!!!");
+            var searchbyTime = _db.AttendanceModels.Where(c => (c.Date.Date > FromDate) && (c.Date.Date < ToDate)).ToList();
+            return View(searchbyTime);
+        }
         public IActionResult Login()
         {
             return View();
@@ -103,6 +110,37 @@ namespace HalcyonAttendance.Controllers
             _db.EmployeeDetails.Update(FindEmployee);
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Login));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ReportGenerate(DateTime FromDate, DateTime ToDate)
+        {
+            Console.WriteLine("came here here!!");
+            var allemployee = _db.EmployeeDetails.ToList();
+            var report = new List<AllEmployeeReportViewModel>();
+
+            foreach(var item in allemployee)
+            {
+                double workinghours = 0.0;
+                //int Arrlev = 0;
+                string EmailForSearch = item.EmpEmail;
+                var tergetEmployee = _db.AttendanceModels.Where(c => (c.Date.Date > FromDate) && (c.Date.Date < ToDate)&&(c.Email==EmailForSearch)).ToList();
+                foreach(var item2 in tergetEmployee)
+                {
+                    workinghours += (item2.LeavingTime - item2.ArrivalTime).TotalHours;
+                }
+                var indreport = new AllEmployeeReportViewModel
+                {
+                    image = item.EmpImage,
+                    name = item.EmpName,
+                    email = EmailForSearch,
+                    WorkingHour = workinghours,
+                    position = item.EmpPosition,
+                };
+                report.Add(indreport);
+            }
+            return View(report);
         }
     }
 }
