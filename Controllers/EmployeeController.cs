@@ -28,11 +28,32 @@ namespace HalcyonAttendance.Controllers
         }
 
         [HttpPost]
-        public IActionResult LoadAttendanceHistory(DateTime FromDate, DateTime ToDate)
+        public IActionResult LoadAttendanceHistory(string SearchEmail, DateTime FromDate, DateTime ToDate)
         {
-            Console.WriteLine("came here here!!!!");
-            var searchbyTime = _db.AttendanceModels.Where(c => (c.Date.Date > FromDate) && (c.Date.Date < ToDate)).ToList();
-            return View(searchbyTime);
+            //Console.WriteLine(FromDate);
+            //Console.WriteLine(ToDate);
+
+            if(FromDate==default(DateTime) || ToDate == default(DateTime))
+            {
+                //Console.WriteLine("came to default");
+                if(SearchEmail == null)
+                    return View(_db.AttendanceModels.ToList());
+                else
+                    return View(_db.AttendanceModels.Where(c => c.Email == SearchEmail).ToList());
+            }
+            if (SearchEmail == null)
+            {
+                Console.WriteLine("came here here!!!!");
+                Console.WriteLine(SearchEmail);
+                var searchbyTime = _db.AttendanceModels.Where(c => (c.Date.Date >= FromDate) && (c.Date.Date <= ToDate)).ToList();
+                return View(searchbyTime);
+            }
+            else
+            {
+                var searchbyTime = _db.AttendanceModels.Where(c => (c.Date.Date >= FromDate) && (c.Date.Date <= ToDate)&&(c.Email==SearchEmail)).ToList();
+                return View(searchbyTime);
+            }
+            
         }
         public IActionResult Login()
         {
@@ -59,11 +80,22 @@ namespace HalcyonAttendance.Controllers
                     _db.EmployeeDetails.Update(findemployee);
                     await _db.SaveChangesAsync();
 
+                    bool checkle = false;
+                    DateTime CurrrentTime = Convert.ToDateTime(DateTime.Now.ToString("h:mm tt"));
+                    DateTime TimeWithCompare = Convert.ToDateTime("9:15 AM"); //Get given time with curretn date
+
+                    if (CurrrentTime > TimeWithCompare)
+                    {
+                        checkle = true;
+                    }
+
                     var AttModel = new AttendanceModel
                     {
+                        Name = findemployee.EmpName,
                         Email = loginmodel.LoginEmail,
                         Date = DateTime.Now.Date,
                         ArrivalTime = DateTime.Now.ToLocalTime(),
+                        LateEarly = checkle,
                         //LeavingTime = null,
                     };
                     _db.AttendanceModels.Add(AttModel);
@@ -78,6 +110,15 @@ namespace HalcyonAttendance.Controllers
 
                     var FindLast = _db.AttendanceModels.AsEnumerable().LastOrDefault(c => c.Email == loginmodel.LoginEmail); // .AsEnumerable() is for working with "LastOrDefult"
                     FindLast.LeavingTime = DateTime.Now;
+                    bool checkle = FindLast.LateEarly;
+                    DateTime CurrrentTime = Convert.ToDateTime(DateTime.Now.ToString("h:mm tt"));
+                    DateTime TimeWithCompare = Convert.ToDateTime("5:00 AM"); //Get given time with curretn date
+
+                    if (CurrrentTime < TimeWithCompare)
+                    {
+                        checkle = true;
+                    }
+                    FindLast.LateEarly = checkle;
                     _db.AttendanceModels.Update(FindLast);
                     await _db.SaveChangesAsync();
                     return RedirectToAction(nameof(Login));
@@ -114,33 +155,110 @@ namespace HalcyonAttendance.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult ReportGenerate(DateTime FromDate, DateTime ToDate)
+        public IActionResult ReportGenerate(string SearchEmail, DateTime FromDate, DateTime ToDate)
         {
             Console.WriteLine("came here here!!");
             var allemployee = _db.EmployeeDetails.ToList();
             var report = new List<AllEmployeeReportViewModel>();
 
-            foreach(var item in allemployee)
+            if (FromDate == default(DateTime) || ToDate == default(DateTime))
             {
-                double workinghours = 0.0;
-                //int Arrlev = 0;
-                string EmailForSearch = item.EmpEmail;
-                var tergetEmployee = _db.AttendanceModels.Where(c => (c.Date.Date > FromDate) && (c.Date.Date < ToDate)&&(c.Email==EmailForSearch)).ToList();
-                foreach(var item2 in tergetEmployee)
+                //Console.WriteLine("came to default");
+                if (SearchEmail == null)
                 {
-                    workinghours += (item2.LeavingTime - item2.ArrivalTime).TotalHours;
+                    foreach (var item in allemployee)
+                    {
+                        double workinghours = 0.0;
+                        //Retriving Attendance details for perticular employee by EmpEmail
+                        var tergetEmployee = _db.AttendanceModels.Where(c => (c.LeavingTime != default(DateTime)) && (c.Email == item.EmpEmail)).ToList();
+                        foreach (var item2 in tergetEmployee)
+                        {
+                            workinghours += (item2.LeavingTime - item2.ArrivalTime).TotalHours;
+                        }
+                        var indreport = new AllEmployeeReportViewModel
+                        {
+                            image = item.EmpImage,
+                            name = item.EmpName,
+                            email = item.EmpEmail,
+                            WorkingHour = workinghours,
+                            position = item.EmpPosition,
+                        };
+                        report.Add(indreport);
+                    }
+                    return View(report);
                 }
-                var indreport = new AllEmployeeReportViewModel
+                    
+                else
                 {
-                    image = item.EmpImage,
-                    name = item.EmpName,
-                    email = EmailForSearch,
-                    WorkingHour = workinghours,
-                    position = item.EmpPosition,
-                };
-                report.Add(indreport);
+                    double workinghours = 0.0;
+                    //int Arrlev = 0;
+                    var findEmp = _db.EmployeeDetails.FirstOrDefault(c => c.EmpEmail == SearchEmail);
+                    var tergetEmployee = _db.AttendanceModels.Where(c => (c.LeavingTime != default(DateTime)) && (c.Email == SearchEmail)).ToList();
+                    foreach (var item2 in tergetEmployee)
+                    {
+                        workinghours += (item2.LeavingTime - item2.ArrivalTime).TotalHours;
+                    }
+                    var indreport = new AllEmployeeReportViewModel
+                    {
+                        image = findEmp.EmpImage,
+                        name = findEmp.EmpName,
+                        email = SearchEmail,
+                        WorkingHour = workinghours,
+                        position = findEmp.EmpPosition,
+                    };
+                    report.Add(indreport);
+
+                    return View(report);
+                }
             }
-            return View(report);
+
+            if (SearchEmail == null)
+            {
+                foreach (var item in allemployee)
+                {
+                    double workinghours = 0.0;
+                    string EmailForSearch = item.EmpEmail;
+                    //Retriving Attendance details for perticular employee
+                    var tergetEmployee = _db.AttendanceModels.Where(c => (c.LeavingTime != default(DateTime)) && (c.Date.Date >= FromDate) && (c.Date.Date <= ToDate) && (c.Email == EmailForSearch)).ToList();
+                    foreach (var item2 in tergetEmployee)
+                    {
+                        workinghours += (item2.LeavingTime - item2.ArrivalTime).TotalHours;
+                    }
+                    var indreport = new AllEmployeeReportViewModel
+                    {
+                        image = item.EmpImage,
+                        name = item.EmpName,
+                        email = EmailForSearch,
+                        WorkingHour = workinghours,
+                        position = item.EmpPosition,
+                    };
+                    report.Add(indreport);
+                }
+                return View(report);
+            }
+            else
+            {
+                    double workinghours = 0.0;
+                //int Arrlev = 0;
+                    var findEmp = _db.EmployeeDetails.FirstOrDefault(c => c.EmpEmail == SearchEmail);
+                    var tergetEmployee = _db.AttendanceModels.Where(c => (c.LeavingTime != default(DateTime)) && (c.Date.Date >= FromDate) && (c.Date.Date <= ToDate) && (c.Email == SearchEmail)).ToList();
+                    foreach (var item2 in tergetEmployee)
+                    {
+                        workinghours += (item2.LeavingTime - item2.ArrivalTime).TotalHours;
+                    }
+                    var indreport = new AllEmployeeReportViewModel
+                    {
+                        image = findEmp.EmpImage,
+                        name = findEmp.EmpName,
+                        email = SearchEmail,
+                        WorkingHour = workinghours,
+                        position = findEmp.EmpPosition,
+                    };
+                    report.Add(indreport);
+
+                return View(report);
+            }
+            
         }
     }
 }

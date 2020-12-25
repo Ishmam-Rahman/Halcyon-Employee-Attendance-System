@@ -11,6 +11,9 @@ namespace HalcyonAttendance.Models
         public int Id { get; set; }
 
         [Required]
+        public string Name { get; set; }
+
+        [Required]
         public string Email { get; set; }
 
         [Required]
@@ -24,5 +27,9 @@ namespace HalcyonAttendance.Models
 
         [DisplayFormat(DataFormatString = "{0:T}")]
         public DateTime LeavingTime { get; set; }
+
+        [Required]
+        [Display(Name = "Late Arrival/Early Leave")]
+        public bool LateEarly { get; set; }
     }
 }

@@ -16,7 +16,6 @@ namespace HalcyonAttendance.ViewModel
         [Display(Name = "Name")]
         public string name { get; set; }
 
-        [Key]
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -24,7 +23,7 @@ namespace HalcyonAttendance.ViewModel
 
         [Required]
         [Display(Name = "Working Hour")]
-        [DisplayFormat(DataFormatString = "{0:F3}")]
+        [DisplayFormat(DataFormatString = "{0:F1}")]
         public double WorkingHour { get; set; }
 
         [Required]

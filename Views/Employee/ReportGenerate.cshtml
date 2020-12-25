@@ -6,9 +6,15 @@
 
 <h1>ReportGenerate</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div>
+    <form asp-action="ReportGenerate" method="post">
+        <span>Email : </span><input type="email" name="SearchEmail" />
+        <span>From  : </span><input type="date" name="FromDate" />
+        <span>Upto  : </span><input type="date" name="ToDate" />
+        <input type="submit" value="Generate Report  " class="btn btn-success" />
+    </form>
+</div>
+<br />
 <table class="table">
     <thead>
         <tr>
@@ -31,30 +37,31 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <img src="~/images/@item.image"
-                     class="rounded-circle"
-                     height="40" width="40"
-                     asp-append-version="true" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.position)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.WorkingHour)
-            </td>
-            <td>
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="~/images/@item.image"
+                         class="rounded-circle"
+                         height="40" width="40"
+                         asp-append-version="true" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.position)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkingHour)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div class="col-12 text-right">
+    <a asp-action="LoadAttendanceHistory" class="btn btn-info">&nbsp;Attendance History</a>
+</div>
