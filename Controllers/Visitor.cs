@@ -26,8 +26,17 @@ namespace Practicum_Project_HAS.Controllers
         [HttpPost]
         public IActionResult LoadVisitor(DateTime FromDate, DateTime ToDate )
         {
-            var searchbyTime = _db.VisitorDetails.Where(c => (c.dateTime.Date > FromDate) && (c.dateTime.Date < ToDate));
-            return View(searchbyTime);
+            if(FromDate == default(DateTime) || ToDate == default(DateTime))
+            {
+                var searchVisitor = _db.VisitorDetails.ToList();
+                return View(searchVisitor);
+            }
+            else
+            {
+                var searchbyTime = _db.VisitorDetails.Where(c => (c.dateTime.Date > FromDate) && (c.dateTime.Date < ToDate));
+                return View(searchbyTime);
+            }
+           
         }
 
         public IActionResult Create()

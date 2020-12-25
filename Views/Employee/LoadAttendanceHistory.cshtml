@@ -4,7 +4,10 @@
     ViewData["Title"] = "LoadAttendanceHistory";
 }
 
-<h1>LoadAttendanceHistory</h1>
+<center>
+    <h1>Attendance History</h1>
+</center>
+
 
 <p>
     <div class="col-12 text-right"><a asp-action="Login" class="btn btn-primary">Return to Attendacne Pannel</a></div>
@@ -29,7 +32,10 @@
         <a asp-action="LoadAttendanceHistory"></a>
     </form>
 </div>
-
+<br />
+<center>
+    <h3>@ViewBag.message</h3>
+</center>
 
 <table class="table">
     <thead>
@@ -58,34 +64,34 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td align="center">
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td align="center">
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td align="center">
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ArrivalTime)
-            </td>
-            <td align="center">
-                @if (item.LeavingTime == default(DateTime))
-                {
-                    <p>Working</p>
-                }
-                else
-                {
-                    @Html.DisplayFor(modelItem => item.LeavingTime)
-                }
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ArrivalTime)
+                </td>
+                <td>
+                    @if (item.LeavingTime == default(DateTime))
+                    {
+                        <p>Working</p>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.LeavingTime)
+                    }
 
-            </td>
-            <td align="center">
-                @Html.DisplayFor(modelItem => item.LateEarly)
-            </td>
-        </tr>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LateEarly)
+                </td>
+            </tr>
         }
     </tbody>
 </table>

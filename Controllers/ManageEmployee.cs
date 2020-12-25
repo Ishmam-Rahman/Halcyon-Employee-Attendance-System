@@ -11,6 +11,7 @@ using HalcyonAttendance.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using HalcyonAttendance.Controllers;
+using Microsoft.Data.SqlClient;
 
 namespace Practicum_Project_HAS.Controllers
 {
@@ -37,8 +38,16 @@ namespace Practicum_Project_HAS.Controllers
         [HttpPost]
         public IActionResult ShowAllEmp(string email)
         {
-            var searchbyemail = _db.EmployeeDetails.Where(c => c.EmpEmail == email);
-            return View(searchbyemail);
+            if(email == null)
+            {
+                var searchbyemail = _db.EmployeeDetails.ToList();
+                return View(searchbyemail);
+            }
+            else
+            {
+                var searchbyemail = _db.EmployeeDetails.Where(c => c.EmpEmail == email);
+                return View(searchbyemail.ToList());
+            } 
         }
 
         //Get create method
@@ -120,6 +129,13 @@ namespace Practicum_Project_HAS.Controllers
             if (ModelState.IsValid)
             {
                 _db.EmployeeDetails.Update(employeeDetails);
+                var tergetemployee = _db.AttendanceModels.Where(c => c.Email == employeeDetails.EmpEmail);
+
+                foreach(AttendanceModel item in tergetemployee)
+                {
+                    item.Name = employeeDetails.EmpName;
+                    _db.AttendanceModels.Update(item);
+                }
                 await _db.SaveChangesAsync();
                 return RedirectToAction(nameof(ShowAllEmp));
             }
@@ -164,6 +180,8 @@ namespace Practicum_Project_HAS.Controllers
         {
             var employe = _db.EmployeeDetails.Find(id);
             _db.EmployeeDetails.Remove(employe);
+            //_db.AttendanceModels.Where(c => c.Email == employe.EmpEmail).DeleteFromQuery();
+            _db.AttendanceModels.RemoveRange(_db.AttendanceModels.Where(c => c.Email == employe.EmpEmail));
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(ShowAllEmp));
         }

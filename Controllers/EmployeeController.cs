@@ -30,16 +30,18 @@ namespace HalcyonAttendance.Controllers
         [HttpPost]
         public IActionResult LoadAttendanceHistory(string SearchEmail, DateTime FromDate, DateTime ToDate)
         {
-            //Console.WriteLine(FromDate);
-            //Console.WriteLine(ToDate);
-
-            if(FromDate==default(DateTime) || ToDate == default(DateTime))
+            var findemployee = _db.EmployeeDetails.FirstOrDefault(c => c.EmpEmail == SearchEmail);
+            
+            if (FromDate==default(DateTime) || ToDate == default(DateTime))
             {
-                //Console.WriteLine("came to default");
                 if(SearchEmail == null)
                     return View(_db.AttendanceModels.ToList());
                 else
+                {
+                    if (findemployee != null) ViewBag.message = findemployee.EmpName;
                     return View(_db.AttendanceModels.Where(c => c.Email == SearchEmail).ToList());
+                }
+                   
             }
             if (SearchEmail == null)
             {
@@ -50,6 +52,7 @@ namespace HalcyonAttendance.Controllers
             }
             else
             {
+                if (findemployee != null) ViewBag.message = findemployee.EmpName;
                 var searchbyTime = _db.AttendanceModels.Where(c => (c.Date.Date >= FromDate) && (c.Date.Date <= ToDate)&&(c.Email==SearchEmail)).ToList();
                 return View(searchbyTime);
             }
@@ -158,6 +161,14 @@ namespace HalcyonAttendance.Controllers
         public IActionResult ReportGenerate(string SearchEmail, DateTime FromDate, DateTime ToDate)
         {
             Console.WriteLine("came here here!!");
+            if (SearchEmail != null)
+            {
+                var checkval = _db.EmployeeDetails.FirstOrDefault(c => c.EmpEmail == SearchEmail);
+                if (checkval == null)
+                {
+                    SearchEmail = null;
+                }
+            }
             var allemployee = _db.EmployeeDetails.ToList();
             var report = new List<AllEmployeeReportViewModel>();
 
@@ -191,7 +202,6 @@ namespace HalcyonAttendance.Controllers
                 else
                 {
                     double workinghours = 0.0;
-                    //int Arrlev = 0;
                     var findEmp = _db.EmployeeDetails.FirstOrDefault(c => c.EmpEmail == SearchEmail);
                     var tergetEmployee = _db.AttendanceModels.Where(c => (c.LeavingTime != default(DateTime)) && (c.Email == SearchEmail)).ToList();
                     foreach (var item2 in tergetEmployee)
