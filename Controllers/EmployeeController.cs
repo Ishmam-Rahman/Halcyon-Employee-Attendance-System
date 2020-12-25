@@ -1,6 +1,7 @@
 ﻿using HalcyonAttendance.Data;
 using HalcyonAttendance.Models;
 using HalcyonAttendance.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace HalcyonAttendance.Controllers
 {
+    [Authorize]
     public class EmployeeController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -58,6 +60,7 @@ namespace HalcyonAttendance.Controllers
             }
             
         }
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
@@ -73,7 +76,7 @@ namespace HalcyonAttendance.Controllers
                 var findemployee = _db.EmployeeDetails.FirstOrDefault(c => c.EmpEmail == loginmodel.LoginEmail && c.EmpPassword==loginmodel.Password);
                 if (findemployee == null)
                 {
-                    ViewBag.message = "Employee with this Email and Password Doestn't exist!!!";
+                    TempData["error"] = "Email and Password Doestn't exist!!!";
                     return View(loginmodel);
                 }
 
@@ -103,6 +106,7 @@ namespace HalcyonAttendance.Controllers
                     };
                     _db.AttendanceModels.Add(AttModel);
                     await _db.SaveChangesAsync();
+                    TempData["login"] = "Login Successfully...";
                     return RedirectToAction(nameof(Login));
                 }
                 else
@@ -124,12 +128,13 @@ namespace HalcyonAttendance.Controllers
                     FindLast.LateEarly = checkle;
                     _db.AttendanceModels.Update(FindLast);
                     await _db.SaveChangesAsync();
+                    @TempData["logout"] = "Logout Successfully...";
                     return RedirectToAction(nameof(Login));
                 }
             }
             return View(loginmodel);
         }
-
+        [AllowAnonymous]
         public IActionResult ChangePassword()
         {
             return View();
@@ -142,17 +147,21 @@ namespace HalcyonAttendance.Controllers
             var FindEmployee = _db.EmployeeDetails.FirstOrDefault(c => c.EmpEmail == changeingmodel.email && c.EmpPassword==changeingmodel.OldPassword);
             if (FindEmployee == null)
             {
+                
+                TempData["errorcp"] = "Email and Password Doestn't exist!!!";
                 return View(changeingmodel);
             }
 
             if(changeingmodel.NewPassword!=changeingmodel.ConfirmPassword)
             {
+                TempData["errordup"] = "New and Confirm Password are not same";
                 return View(changeingmodel);
             }
             FindEmployee.EmpPassword = changeingmodel.NewPassword;
 
             _db.EmployeeDetails.Update(FindEmployee);
             await _db.SaveChangesAsync();
+            TempData["cps"] = "Password Successfully Changed...";
             return RedirectToAction(nameof(Login));
         }
 

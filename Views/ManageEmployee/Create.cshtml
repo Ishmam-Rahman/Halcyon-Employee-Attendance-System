@@ -61,4 +61,13 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+             var alertdup = '@TempData["DupliEmp"]';
+            if (alertdup != '') {
+                alertify.error(alertdup);
+            }
+        })
+    </script>
 }

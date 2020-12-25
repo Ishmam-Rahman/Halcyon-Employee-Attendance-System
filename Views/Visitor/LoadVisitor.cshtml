@@ -4,24 +4,30 @@
     ViewData["Title"] = "LoadVisitor";
 }
 
-<h1>LoadVisitor</h1>
+<center>
+    <h1 style="background-color: aqua">Visitors in Halcyon</h1>
+</center>
+
 
 <p>
-    <div class="col-12 text-right"><a asp-action="Create" class="btn btn-primary">Enlist Visitor</a></div>
+    <div class="col-12 text-right"></div>
 </p>
-<center>
+<center style="background-color:yellow">
     <div>
         <form method="post">
             <span>Time From : </span><input type="date" name="FromDate" />
             <span>Time To : </span><input type="date" name="ToDate" />
-            <input type="submit" value="Get the Visitors within the Time" class="btn btn-success" />
+            <input type="submit" value="View Visitors within the Time" class="btn btn-success" />
             <a asp-action="LoadVisitor"></a>
+            <a asp-action="Create" class="btn btn-primary">Enlist Visitor</a>
         </form>
+        
     </div>
 </center>
 
-<table class="table">
-    <thead>
+<br />
+<table class="table" style="background-color:antiquewhite">
+    <thead style="background-color:palegoldenrod">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.dateTime)
@@ -45,32 +51,49 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr> 
-            <td>
-                @Html.DisplayFor(modelItem => item.dateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Profession)
-            </td>
-            <td>
-                @Html.ActionLink("Delete", "Delete", new { id = item.Id })|
-                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Profession)
+                </td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })|
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var alerte = '@TempData["EditVis"]';
+            var alertd = '@TempData["DeleteVis"]';
+            if (alerte != '') {
+                alertify.success(alerte);
+            }
+            else if (alertd != '') {
+                alertify.success(alertd);
+            }
+        })
+    </script>
+}

@@ -7,9 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HalcyonAttendance.Controllers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Practicum_Project_HAS.Controllers
 {
+    [Authorize]
     public class Visitor : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -39,6 +41,7 @@ namespace Practicum_Project_HAS.Controllers
            
         }
 
+        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
@@ -53,6 +56,7 @@ namespace Practicum_Project_HAS.Controllers
             {
                 _db.VisitorDetails.Update(visitorDetails);
                 await _db.SaveChangesAsync();
+                TempData["AddedVis"] = "Visitor has been added Successfully!!";
                 return RedirectToAction(nameof(Create));
             }
             return View();
@@ -77,6 +81,7 @@ namespace Practicum_Project_HAS.Controllers
             {
                 _db.VisitorDetails.Update(visitorDetails);
                 await _db.SaveChangesAsync();
+                TempData["EditVis"] = "Updated Successfully!!";
                 return RedirectToAction(nameof(LoadVisitor));
             }
             return View(visitorDetails);
@@ -104,6 +109,7 @@ namespace Practicum_Project_HAS.Controllers
             var visitor = _db.VisitorDetails.Find(id);
             _db.VisitorDetails.Remove(visitor);
             await _db.SaveChangesAsync();
+            TempData["DeleteVis"] = "Deleted Successfully!!";
             return RedirectToAction(nameof(LoadVisitor));
         }
 

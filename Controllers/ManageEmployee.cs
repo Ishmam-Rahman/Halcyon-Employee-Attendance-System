@@ -15,7 +15,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Practicum_Project_HAS.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class ManageEmployee : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -67,7 +67,7 @@ namespace Practicum_Project_HAS.Controllers
                 var findemployee = _db.EmployeeDetails.FirstOrDefault(c => c.EmpEmail == employeeDetails.EmpEmail);
                 if (findemployee != null)
                 {
-                    ViewBag.message = "Employee with this email already exist!!!";
+                    TempData["DupliEmp"] = "Email already exist!!!";
                     return View(employeeDetails);
                 }
 
@@ -85,6 +85,7 @@ namespace Practicum_Project_HAS.Controllers
                 };
                 _db.EmployeeDetails.Add(Employee);
                 await _db.SaveChangesAsync();
+                TempData["AddedEmp"] = "New Employee has been added successfully!!";
                 return RedirectToAction(nameof(ShowAllEmp));
             }
             return View(employeeDetails);
@@ -118,6 +119,7 @@ namespace Practicum_Project_HAS.Controllers
                 return NotFound();
             }
             var employeedetal = _db.EmployeeDetails.Find(id);
+            TempData["EditEmp"] = "Updated Successful.";
             return View(employeedetal);
         }
 
@@ -169,10 +171,9 @@ namespace Practicum_Project_HAS.Controllers
             var employeedetails = _db.EmployeeDetails.Find(id);
             if (employeedetails == null)
             {
-                return NotFound();
+                return RedirectToAction(nameof(ShowAllEmp));
             }
             return View(employeedetails);
-
         }
 
         [HttpPost]
@@ -183,6 +184,7 @@ namespace Practicum_Project_HAS.Controllers
             //_db.AttendanceModels.Where(c => c.Email == employe.EmpEmail).DeleteFromQuery();
             _db.AttendanceModels.RemoveRange(_db.AttendanceModels.Where(c => c.Email == employe.EmpEmail));
             await _db.SaveChangesAsync();
+            TempData["DeleteEmp"] = "Deleted Successuly";
             return RedirectToAction(nameof(ShowAllEmp));
         }
 

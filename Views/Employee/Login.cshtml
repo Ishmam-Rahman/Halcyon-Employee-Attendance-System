@@ -3,40 +3,39 @@
 @{
     ViewData["Title"] = "Login";
 }
-
-<center>
-    <h1>Welcome to Halcyon</h1>
-</center>
-
-<div icon>
+<div style="background-color:aquamarine">
     <center>
-        <h4>Employee Login</h4>
+        <h1>Welcome to Halcyon</h1>
     </center>
+
+    <div icon>
+        <center>
+            <h4>Employee Login</h4>
+        </center>
+    </div>
 </div>
 
-<hr />
-<h3>@ViewBag.message</h3>
 
-    <div class="row">
-        <div class="col-4">
-            <form asp-action="Login">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="LoginEmail" class="control-label"></label>
-                    <input asp-for="LoginEmail" class="form-control" />
-                    <span asp-validation-for="LoginEmail" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" type="password" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Enter" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
+<div class="row">
+    <div class="col-4">
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="LoginEmail" class="control-label"></label>
+                <input asp-for="LoginEmail" class="form-control" />
+                <span asp-validation-for="LoginEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Enter" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
+</div>
 
 <div>
     <a asp-action="ChangePassword">Change Password???</a>
@@ -44,4 +43,26 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var alerti = '@TempData["login"]';
+            var alerto = '@TempData["logout"]';
+            var alerte = '@TempData["error"]';
+            var alertcps = '@TempData["cps"]';
+
+            if (alerti != '') {
+                alertify.success(alerti);
+            }
+            else if (alerto != '') {
+                alertify.success(alerto);
+            }
+            else if (alerte != '') {
+                alertify.error(alerte);
+            }
+            else if (alertcps != '') {
+                alertify.success(alertcps);
+            }
+        })
+    </script>
 }

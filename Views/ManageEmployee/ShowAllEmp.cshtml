@@ -4,7 +4,10 @@
     ViewData["Title"] = "ShowAllEmp";
 }
 
-<h1>Halcyon Employee List</h1>
+<center>
+    <h1>Halcyon Employee List</h1>
+</center>
+
 <div>
     <div class="col-12 text-right">
         <a asp-action="Create" class="btn btn-info">&nbsp; Add New Employee</a>
@@ -42,28 +45,28 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    <img src="~/images/@item.EmpImage"
-                         class="rounded-circle"
-                         height="40" width="40"
-                         asp-append-version="true" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmpName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmpEmail)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.EmpPosition)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        <img src="~/images/@item.EmpImage"
+                             class="rounded-circle"
+                             height="40" width="40"
+                             asp-append-version="true" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmpName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmpEmail)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EmpPosition)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -72,10 +75,28 @@
 <center>
     <div>
         <a asp-controller="Visitor" asp-action="LoadVisitor" class="btn btn-info">&nbsp; Visitor List</a>
-        <a asp-action="ShowAllEmp" class="btn btn-info">&nbsp; All Employee</a>
         <a asp-controller="Employee" asp-action="LoadAttendanceHistory" class="btn btn-info">&nbsp; Employee Report</a>
     </div>
 </center>
-<div class="col-12 text-right">
-    
-</div>
+
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            var alerta = '@TempData["AddedEmp"]';
+            var alerte = '@TempData["EditEmp"]';
+            var alertd = '@TempData["DeleteEmp"]';
+            if (alerta != '') {
+                alertify.success(alerta);
+            }
+            else if (alerte != '') {
+                alertify.success(alerte);
+            }
+            else if (alertd != '') {
+                alertify.success(alertd);
+            }
+        })
+    </script>
+}
