@@ -47,8 +47,8 @@ namespace HalcyonAttendance.Controllers
             }
             if (SearchEmail == null)
             {
-                Console.WriteLine("came here here!!!!");
-                Console.WriteLine(SearchEmail);
+               // Console.WriteLine("came here here!!!!");
+                //Console.WriteLine(SearchEmail);
                 var searchbyTime = _db.AttendanceModels.Where(c => (c.Date.Date >= FromDate) && (c.Date.Date <= ToDate)).ToList();
                 return View(searchbyTime);
             }
@@ -65,7 +65,7 @@ namespace HalcyonAttendance.Controllers
         {
             return View();
         }
-
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel loginmodel)
@@ -139,7 +139,7 @@ namespace HalcyonAttendance.Controllers
         {
             return View();
         }
-
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel changeingmodel)

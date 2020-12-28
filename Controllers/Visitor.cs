@@ -46,7 +46,7 @@ namespace Practicum_Project_HAS.Controllers
         {
             return View();
         }
-
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(VisitorDetails visitorDetails)
