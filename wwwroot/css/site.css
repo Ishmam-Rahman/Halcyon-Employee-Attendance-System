@@ -5,9 +5,10 @@ body {
     margin-bottom: 60px;
     padding-top: 50px;
     padding-bottom: 20px;
+    /*background-color:antiquewhite;background-position: center center;*/
     background-image: url('~\images\bg.jpg');
     background-size: cover;
-    background-position: center center;
+    
 }
 a.navbar-brand {
   white-space: normal;

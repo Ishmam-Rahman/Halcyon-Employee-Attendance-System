@@ -13,9 +13,9 @@ using Microsoft.Extensions.Logging;
 using HalcyonAttendance.Controllers;
 using Microsoft.Data.SqlClient;
 
-namespace Practicum_Project_HAS.Controllers
+namespace EmployeeController.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class ManageEmployee : Controller
     {
         private readonly ApplicationDbContext _db;

@@ -6,13 +6,13 @@
 @section head{
     <style type="text/css">
         body {
-            background-image: url('..\images\bg.jpg');
+            background-color: orangered;
             margin: 0;
         }
     </style>
 }
 
-<section class="w3l-forms-main-61" runat="server">
+<section class="w3l-forms-main-61" runat="server" style=" background-color:aquamarine;">
     <div class="form-inner">
         <div class="wrapper">
             <div class="d-grid top-form">
@@ -72,16 +72,20 @@
             var alertcps = '@TempData["cps"]';
 
             if (alerti != '') {
-                alertify.success(alerti);
+                var va= "@TempData["login"]";
+                swal("Log in Successful", va, "success");
             }
             else if (alerto != '') {
-                alertify.success(alerto);
+                var va= "@TempData["logout"]";
+                swal("Log out Successful", va, "success");
             }
             else if (alerte != '') {
-                alertify.error(alerte);
+                var va= "@TempData["error"]";
+                swal("Failed", va, "error");
             }
             else if (alertcps != '') {
-                alertify.success(alertcps);
+                var va= "@TempData["cps"]";
+                swal("Password Successfuly Changed", "Thank You", "success");
             }
         })
     </script>

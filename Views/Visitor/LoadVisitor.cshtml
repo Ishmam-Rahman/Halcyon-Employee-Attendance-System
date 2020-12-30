@@ -88,7 +88,11 @@
         $(function() {
             var alerte = '@TempData["EditVis"]';
             var alertd = '@TempData["DeleteVis"]';
-            if (alerte != '') {
+            var alerta = '@TempData["AddedVis"]';
+            if (alerta != '') {
+                alertify.success(alerta);
+            }
+            else if (alerte != '') {
                 alertify.success(alerte);
             }
             else if (alertd != '') {

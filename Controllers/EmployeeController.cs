@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace HalcyonAttendance.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class EmployeeController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -76,7 +76,7 @@ namespace HalcyonAttendance.Controllers
                 var findemployee = _db.EmployeeDetails.FirstOrDefault(c => c.EmpEmail == loginmodel.LoginEmail && c.EmpPassword==loginmodel.Password);
                 if (findemployee == null)
                 {
-                    TempData["error"] = "Email and Password Doestn't exist!!!";
+                    TempData["error"] = "Email and Password Does not exist!!!";
                     return View(loginmodel);
                 }
 
@@ -106,7 +106,7 @@ namespace HalcyonAttendance.Controllers
                     };
                     _db.AttendanceModels.Add(AttModel);
                     await _db.SaveChangesAsync();
-                    TempData["login"] = "Login Successfully...";
+                    TempData["login"] = "Welcome "+findemployee.EmpName;
                     return RedirectToAction(nameof(Login));
                 }
                 else
@@ -128,7 +128,7 @@ namespace HalcyonAttendance.Controllers
                     FindLast.LateEarly = checkle;
                     _db.AttendanceModels.Update(FindLast);
                     await _db.SaveChangesAsync();
-                    @TempData["logout"] = "Logout Successfully...";
+                    @TempData["logout"] = "Thank you " + findemployee.EmpName;
                     return RedirectToAction(nameof(Login));
                 }
             }
@@ -148,7 +148,7 @@ namespace HalcyonAttendance.Controllers
             if (FindEmployee == null)
             {
                 
-                TempData["errorcp"] = "Email and Password Doestn't exist!!!";
+                TempData["errorcp"] = "Email and Password Does not exist!!!";
                 return View(changeingmodel);
             }
 

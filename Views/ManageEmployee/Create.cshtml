@@ -67,7 +67,8 @@
         $(function() {
              var alertdup = '@TempData["DupliEmp"]';
             if (alertdup != '') {
-                alertify.error(alertdup);
+                var va= "@TempData["errordup"]";
+                swal("Failed", va, "warning");
             }
         })
     </script>

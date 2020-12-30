@@ -1,28 +1,25 @@
 ﻿body {
 }
-#students {
-    font-family: Arial, Helvetica, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+#student td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+#student tr:nth-child(odd) {
+    background-color: #ffffff;
 }
 
-    #students td, #customers th {
-        border: 1px solid #ddd;
-        padding: 8px;
-    }
+#student tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
 
-    #students tr:nth-child(even) {
-        background-color: rebeccapurple;
-    }
+#student tr:hover {
+    background-color: #ddd;
+}
 
-    #students tr:hover {
-        background-color: #ddd;
-    }
-
-    #students th {
-        padding-top: 12px;
-        padding-bottom: 12px;
-        text-align: left;
-        background-color: #4CAF50;
-        color: white;
-    }
+#student th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}

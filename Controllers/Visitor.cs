@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Practicum_Project_HAS.Controllers
 {
-    [Authorize]
+    [Authorize(Roles ="VisitorModarate, Admin")]
     public class Visitor : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -41,12 +41,10 @@ namespace Practicum_Project_HAS.Controllers
            
         }
 
-        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
         }
-        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(VisitorDetails visitorDetails)
@@ -57,7 +55,7 @@ namespace Practicum_Project_HAS.Controllers
                 _db.VisitorDetails.Update(visitorDetails);
                 await _db.SaveChangesAsync();
                 TempData["AddedVis"] = "Visitor has been added Successfully!!";
-                return RedirectToAction(nameof(Create));
+                return RedirectToAction(nameof(LoadVisitor));
             }
             return View();
         }
