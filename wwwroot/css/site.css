@@ -6,9 +6,8 @@ body {
     padding-top: 50px;
     padding-bottom: 20px;
     /*background-color:antiquewhite;background-position: center center;*/
-    background-image: url('~\images\bg.jpg');
+    background: linear-gradient(to right, #6a10bd, #17cbba);
     background-size: cover;
-    
 }
 a.navbar-brand {
   white-space: normal;

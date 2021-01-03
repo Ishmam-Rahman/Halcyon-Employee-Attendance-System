@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 using HalcyonAttendance.Controllers;
 using Microsoft.Data.SqlClient;
 
-namespace EmployeeController.Controllers
+namespace HalcyonAttendance.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class ManageEmployee : Controller

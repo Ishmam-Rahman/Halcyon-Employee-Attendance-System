@@ -4,50 +4,66 @@
 @{
     ViewData["Title"] = "Log in";
 }
+@section head{
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css" />
+    <link href="~/css/mystyle.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="//fonts.googleapis.com/css?family=Mukta:200,300,400,500,600,700,800" rel="stylesheet">
+}
 
-<Center>
-    <h1>Halcyon Admin Login</h1>
-</Center>
 
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post">
-                <hr />
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Input.Email"></label>
-                    <input asp-for="Input.Email" class="form-control" />
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+<section class="w3l-forms-main-61" runat="server" style=" background-color:aquamarine;">
+    <div class="form-inner">
+        <div class="wrapper">
+            <div class="d-grid top-form">
+                <div class="logo">
+                    <a class="brand-logo" href="index.html">
+                        <span>
+                            <span class="fa fa-viadeo"
+                                  aria-hidden="true"></span> Halcyon It Solution
+                        </span>
+                    </a>
+                    <!--<a class="brand-logo" href="#index.html">
+                    <img src="image-path" alt="Your logo" title="Your logo" style="height:35px;" />
+                                </a>-->
                 </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password"></label>
-                    <input asp-for="Input.Password" class="form-control" />
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="form-bg-blur" style="background-color:lime">
+                <div class="form-61">
+                    <h4 class="form-head">Halcyon Admin Login</h4>
+
+                    <form id="account" method="post">
+                        <div class="form-group">
+                            <label asp-for="Input.Email"></label>
+                            <input asp-for="Input.Email" class="form-control" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.Password"></label>
+                            <input asp-for="Input.Password" class="form-control" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Log in</button> 
+                    </form>
                 </div>
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label asp-for="Input.RememberMe">
-                            <input asp-for="Input.RememberMe" />
-                            @Html.DisplayNameFor(m => m.Input.RememberMe)
-                        </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Log in</button>
-                </div>
-                <div class="form-group">
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="Model.ReturnUrl">Register a new Admin</a>
-                    </p>
-                </div>
-            </form>
-        </section>
+            </div>
+            <!--
+            <div class="go-to-home text-center">
+                <p>Want to Create account? <a class="btn" href="signup.html"> Signup </a></p>
+            </div> -->
+        </div>
+        <div class="copyright text-center">
+            <div class="wrapper">
+                <p class="copy-footer-29">
+                   
+                </p>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

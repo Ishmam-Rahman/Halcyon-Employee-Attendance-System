@@ -79,9 +79,10 @@ namespace HalcyonAttendance.Controllers
                     TempData["error"] = "Email and Password Does not exist!!!";
                     return View(loginmodel);
                 }
-
+            come_here:
                 if (findemployee.LoginStatus == false)
                 {
+                   
                     findemployee.LoginStatus = true;
                     _db.EmployeeDetails.Update(findemployee);
                     await _db.SaveChangesAsync();
@@ -115,7 +116,16 @@ namespace HalcyonAttendance.Controllers
                     _db.EmployeeDetails.Update(findemployee);
                     await _db.SaveChangesAsync();
 
-                    var FindLast = _db.AttendanceModels.AsEnumerable().LastOrDefault(c => c.Email == loginmodel.LoginEmail); // .AsEnumerable() is for working with "LastOrDefult"
+                    var FindLast = _db.AttendanceModels.AsEnumerable().LastOrDefault(c => c.Email == loginmodel.LoginEmail);
+                    // .AsEnumerable() is for working with "LastOrDefult"
+                    DateTime ArrivlTimePlus10Hr = FindLast.ArrivalTime.AddHours(1);
+                    if (ArrivlTimePlus10Hr < DateTime.Now)
+                    {
+                        FindLast.LeavingTime = ArrivlTimePlus10Hr;
+                        _db.AttendanceModels.Update(FindLast);
+                        await _db.SaveChangesAsync();
+                        goto come_here;
+                    }
                     FindLast.LeavingTime = DateTime.Now;
                     bool checkle = FindLast.LateEarly;
                     DateTime CurrrentTime = Convert.ToDateTime(DateTime.Now.ToString("h:mm tt"));

@@ -4,56 +4,96 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+@section head{
 
-<h4>VisitorDetails</h4>
+    <link href="~/Regform/css/main.css" rel="stylesheet" />
+    <script src="~/Regform/js/global.js"></script>
+    <script src="~/Regform/vendor/jquery/jquery.js"></script>
+    <link href="~/Regform/vendor/select2/select2.min.css" rel="stylesheet" />
+    <script src="~/Regform/vendor/select2/select2.min.js"></script>
+    <link href="~/Regform/vendor/font-awesome-4.7/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Regform/vendor/datepicker/daterangepicker.css" rel="stylesheet" />
+    <script src="~/Regform/vendor/datepicker/daterangepicker.js"></script>
+    <script src="~/Regform/vendor/datepicker/moment.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+    <link href="~/Regform/vendor/font-awesome-4.7/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Regform/vendor/mdi-font/css/material-design-iconic-font.css" rel="stylesheet" />
+}
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+    <div class="wrapper wrapper--w790">
+        <div class="card card-5">
+            <div class="card-heading">
+                <h2 class="title">Edit visitor info</h2>
+            </div>
+            <div class="card-body">
+                <form method="POST" asp-action="Edit" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="name">Name</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input asp-for="Name" class="input--style-5" type="text">
+                            </div>
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                    <div class="form-row">
+                        <div class="name">Email</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input asp-for="Email" class="input--style-5" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-row">
+                        <div class="name">Phone</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input asp-for="Phone" class="input--style-5" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Type</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input asp-for="Type" class="input--style-5" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Professio</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input asp-for="Profession" class="input--style-5" type="text">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="name">Time</div>
+                        <div class="value">
+                            <div class="input-group">
+                                <input asp-for="dateTime" class="input--style-5" type="datetime">
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn--radius-2 btn--blue" type="submit">Update</button>
+                    </div>
+                </form>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Type" class="control-label"></label>
-                <input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Profession" class="control-label"></label>
-                <input asp-for="Profession" class="form-control" />
-                <span asp-validation-for="Profession" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="dateTime" class="control-label"></label>
-                <input asp-for="dateTime" class="form-control" />
-                <span asp-validation-for="dateTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+        <a asp-action="LoadVisitor" class="btn btn--green">Visitor List</a>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
 }
